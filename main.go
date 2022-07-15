@@ -34,7 +34,6 @@ func main() {
 		var canBook = validateUserInput(booking, nTicketsRemaining)
 		if canBook {
 			nTicketsRemaining = updateBookings(booking, nTicketsRemaining)
-			waitGroup.Add(1)
 			go sendEmail(booking, &waitGroup)
 		} else {
 			fmt.Printf("    Please try again.\n\n")
@@ -130,6 +129,7 @@ func validateUserInput(booking Booking, nTicketsRemaining uint) bool {
 }
 
 func sendEmail(booking Booking, waitGroup *sync.WaitGroup) {
+	waitGroup.Add(1)
 	time.Sleep(10 * time.Second)
 	var ticket = fmt.Sprintf("%v tickets for %v %v", booking.nTickets, booking.firstName, booking.lastName)
 	fmt.Printf("\n    Sent %v to email address %v.\n\n", ticket, booking.emailAddress)
