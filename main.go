@@ -35,10 +35,10 @@ func main() {
 		if canBook {
 			nTicketsRemaining = updateBookings(booking, nTicketsRemaining)
 			emailConfirmationWaitGroup.Add(1)
-			go func() {
+			go func(booking Booking) {
 				defer emailConfirmationWaitGroup.Done()
 				sendEmail(booking)
-			}()
+			}(booking)
 		} else {
 			fmt.Printf("    Please try again.\n\n")
 		}
